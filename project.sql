@@ -1,15 +1,22 @@
-
+--Data cleaning
 
 select *
 from layoff_staging;
 
+--created duplicated table 'layoff_staging' where we work on the data
 create table layoff_staging
 select *
 from layoffs;
 
+    -- Main steps for data clenaing
+-- Removing Duplicates
+-- Standardizing values
+-- Remove null and blank values and alter the table
+
 
 -- duplicate remove
 
+-- create cte to find the duplicate values and add row_num column to find repeated data
 with duplicate_cte as
 (
 select *,
@@ -26,6 +33,7 @@ where company = 'casper';
 select *
 from layoff_staging;
 
+-- create table 'layoff_staging2' to remove duplicates by using row_num column
 CREATE TABLE `layoff_staging2` (
   `company` text,
   `location` text,
@@ -42,13 +50,14 @@ CREATE TABLE `layoff_staging2` (
 select *
 from layoff_staging2;
 
+-- inserting row_num values with whole data into 'layoff_staging2' table
 insert into layoff_staging2
 select *,
 row_number () over (partition by company, location, industry, total_laid_off, percentage_laid_off, 
 `date`, stage, country, funds_raised_millions) as row_num
 from layoff_staging;
 
-
+--find the data where row_num values greater than 1 due to which find common values 
 select * 
 from layoff_staging2
 where row_num >1 ;
@@ -56,12 +65,10 @@ where row_num >1 ;
 select * 
 from layoff_staging2;
 
+--deleting row_num values greter then 1
 delete 
 from layoff_staging2
 where row_num >1 ;
-
-
-
 
 
 -- Standardizing

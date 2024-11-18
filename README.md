@@ -1,4 +1,4 @@
-# Data_cleaning_SQL-project
+# Data_engg_SQL-project
 ```
 1 Remove duplicates
 2 Standardizing data
